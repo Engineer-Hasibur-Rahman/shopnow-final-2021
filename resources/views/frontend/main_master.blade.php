@@ -65,6 +65,7 @@
 <script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script> 
 <script src="{{ asset('frontend/assets/js/scripts.js') }}"></script>
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Add to card model -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,7 +73,7 @@
      <div class="modal-content">
        <div class="modal-header">
          <h5 class="modal-title" id="exampleModalLabel"><strong><span id="pname" ></span></strong></h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModel">
            <span aria-hidden="true">&times;</span>
          </button>
        </div>
@@ -114,27 +115,30 @@
                <div class="col-lg-4">
 
                   <div class="form-group">
-                     <label for="exampleFormControlSelect1">Choose Color</label>
+                     <label for="color">Choose Color</label>
 
-                     <select class="form-control" name="color" id="exampleFormControlSelect1">
+                     <select class="form-control" name="color" id="color">
                        
                      
                      </select>
                    </div>
 
                    <div class="form-group"  id="sizeArea">
-                     <label for="exampleFormControlSelect1">Choose Size</label>
-                     <select class="form-control" name="size" id="exampleFormControlSelect1">
+                     <label for="size">Choose Size</label>
+                     <select class="form-control" name="size" id="size">
                     
                      </select>
                    </div>
 
                    <div class="form-group">
-                     <label for="exampleFormControlSelect1">Choose Quantity</label>
+                     <label for="qty">Choose Quantity</label>
 
-                    <input type="number" class="form-control" id="exampleFormControlInput1"  value="1" mi1n="1">
+                    <input type="number" class="form-control" id="qty"  value="1" mi1n="1">
+
                    </div>
-                   <button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
+
+                   <input type="hidden" id="product_id">
+                   <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()" >Add to Cart</button>
 
                </div>
             </div>
@@ -178,8 +182,14 @@
                   // img 
                   $('#pimg').attr('src','/'+data.product.product_thambnail);
 
-                  // Product Price
+                  // product id for add to cart
+                  $('#product_id').val(id);
 
+                  // Qty 
+                  $('#qty').val(1);
+
+
+                  // Product Price
                   if (data.product.discount_price == null) {
 
                      /// for discount price is null then only show selling price
@@ -242,7 +252,64 @@
 
         
 
-         } // end function
+         } // end function 
+
+
+         //   start add to cart product function
+
+          function addToCart(){
+            var product_name = $('#pname').text();
+            var id = $('#product_id').val();
+            var color = $('#color option:selected').text();
+            var size = $('#size option:selected').text();            
+            var quantity = $('#qty').val();
+
+            // add to cart post
+            $.ajax({
+               type: "POST",
+               dataType: 'json',
+               data:{
+                  color:color, size:size, quantity:quantity, product_name:product_name                  
+               },
+               url: "/cart/data/store/"+id,
+               success:function(data){
+                  // cart auto close
+                  $('#closeModel').click();              
+                  // test data
+                  // console.log(data)
+
+                  //start message
+                  const Toast = Swal.mixin({
+                     toast:true,
+                     position: 'top-end',
+                     icon: 'success',                     
+                     showConfirmButton: false,
+                     timer: 3000,
+                
+                     })
+                     if ($.isEmptyObject(data.error)) {
+                        Toast.fire({
+                           type: 'success',
+                           title: data.success
+                        })
+                     }else{
+                        Toast.fire({
+                           type: 'error',
+                           title: data.error
+                        })
+                     }
+
+                  // end message
+                
+               } // fun end
+            })
+
+          } // end function
+
+
+         //   End add to cart product function
+
+
 
          </script>
 
