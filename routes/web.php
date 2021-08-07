@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 
+use App\Http\Controllers\Frontend\CartController;
+
 use App\Models\User;
 
 
@@ -122,7 +124,6 @@ Route::prefix('category')->group(function(){
     Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('category.update');
 
     Route::get('/delete/{id}', [CategoryController::class, 'CategoryDelete'])->name('category.delete');
-
 
 });
 
@@ -248,3 +249,6 @@ Route::get('/subsubcategory/product/{subsubcat_id}', [IndexController::class, 'S
 // Product view model ajax card
 Route::get('/product/view/modal/{id}', [IndexController::class, 'ProductViewAjax']);
  
+// Product Add to cart route ajax  use in package
+Route::post('/cart/data/store/{id}', [CartController::class, 'AddToCart']);
+
