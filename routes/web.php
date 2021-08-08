@@ -9,7 +9,9 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\IndexController;
-use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Frontend\LanguageController; 
+
+use App\Http\Controllers\User\WishlistController;
 
 use App\Http\Controllers\Frontend\CartController;
 
@@ -250,5 +252,28 @@ Route::get('/subsubcategory/product/{subsubcat_id}', [IndexController::class, 'S
 Route::get('/product/view/modal/{id}', [IndexController::class, 'ProductViewAjax']);
  
 // Product Add to cart route ajax  use in package
-Route::post('/cart/data/store/{id}', [CartController::class, 'AddToCart']);
+Route::post('/cart/data/store/{id}', [CartController::class, 'AddToCart']); 
 
+// Product mini Cart ajax data
+Route::get('/product/mini/cart/', [CartController::class, 'AddMiniCart']);
+
+// Remove mini cart product
+Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
+
+// Add to Wishlist product
+Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'AddToWishlist']); 
+
+
+######### Start Product wishlist only view Auth user in use middleware ###########
+Route::group(['prefix'=>'user','middleware' => ['user','auth'],'namespace'=>'User'],function(){
+
+// Product Wishlist page
+Route::get('/wishlist', [WishlistController::class, 'ViewWishlist'])->name('wishlist');
+
+// Product Wishlist show data
+Route::get('/get-wishlist-product', [WishlistController::class, 'GetWishlistProduct']);
+
+// Remove  Wishlist Product
+Route::get('/wishlist-remove/{id}', [WishlistController::class, 'RemoveWishlistProduct']); 
+
+}); ####### End Product wishlist only view Auth user in use middleware  #############
