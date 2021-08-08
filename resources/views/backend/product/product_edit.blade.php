@@ -190,7 +190,7 @@
                     <div class="form-group">
                         <h5>Product Tags <span class="text-danger">*</span></h5>
                         <div class="controls">
-                         <input type="text" value="{{ $products->product_tags }}" name="product_tags" value="Lorem,Ipsum,Amet" data-role="tagsinput" class="form-control" required="" > </div>
+                         <input type="text" value="{{ $products->product_tags }}" name="product_tags" value="Lorem,Ipsum,Amet" data-role="tagsinput" class="form-control" > </div>
                    
                          @error('product_tags') 
                          <span class="text-danger">{{ $message }}</span>
@@ -211,7 +211,7 @@
                     <div class="form-group">
                         <h5>Product size <span class="text-danger">*</span></h5>
                         <div class="controls">
-                            <input type="text" value="{{ $products->product_size }}" name="product_size" value="small,large,mediem" data-role="tagsinput" class="form-control" required=""> </div>
+                            <input type="text" value="{{ $products->product_size }}" name="product_size" value="small,large,mediem" data-role="tagsinput" class="form-control" > </div>
                    
                          @error('product_size') 
                          <span class="text-danger">{{ $message }}</span>
@@ -226,7 +226,7 @@
                     <div class="form-group">
                         <h5>Product Colors <span class="text-danger">*</span></h5>
                         <div class="controls">
-                         <input type="text" value="{{ $products->product_color }}" name="product_color" value="Red,Green,Black" data-role="tagsinput" class="form-control" required="" > </div>
+                         <input type="text" value="{{ $products->product_color }}" name="product_color" value="Red,Green,Black" data-role="tagsinput" class="form-control"  > </div>
                    
                          @error('product_color') 
                          <span class="text-danger">{{ $message }}</span>
@@ -324,7 +324,7 @@
                 <div class="col-md-9">       
                     <div class="form-group">
                         <h5>Product Long Descraption<span class="text-danger">*</span></h5>
-                        	<textarea id="editor1" name="product_long_descp" rows="5" cols="80" required="">
+                        	<textarea id="editor1" name="product_long_descp" rows="5" cols="80" >
                                 {!! $products->product_long_descp !!}
                              </textarea>
 
